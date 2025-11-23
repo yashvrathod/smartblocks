@@ -140,7 +140,7 @@ export function ContactForm({ className }: ContactFormProps) {
 
   const getCaptchaToken = async (): Promise<string> => {
     const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-    
+
     // Skip captcha if no site key or grecaptcha not available
     if (!siteKey || !captchaLoaded || !window.grecaptcha) {
       console.warn("reCAPTCHA not available, proceeding without verification");
@@ -155,7 +155,7 @@ export function ContactForm({ className }: ContactFormProps) {
               action: "contact_form",
             })
             .then(resolve)
-            .catch((error) => {
+            .catch((error: unknown) => {
               console.warn("reCAPTCHA execution failed:", error);
               resolve("captcha-failed");
             });
@@ -437,25 +437,42 @@ export function ContactForm({ className }: ContactFormProps) {
         {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
           <div className="flex items-center gap-2 text-xs text-gray-500">
             <Shield className="h-4 w-4" />
-            <span>Protected by reCAPTCHA. Your privacy is important to us.</span>
+            <span>
+              Protected by reCAPTCHA. Your privacy is important to us.
+            </span>
           </div>
         )}
 
         <div>
           <motion.button
             type="submit"
-            disabled={isSubmitting || (!captchaLoaded && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)}
+            disabled={
+              isSubmitting ||
+              (!captchaLoaded &&
+                Boolean(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY))
+            }
             className={cn(
               "w-full flex items-center justify-center gap-2 px-6 py-4 rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2",
-              isSubmitting || (!captchaLoaded && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
+              isSubmitting ||
+                (!captchaLoaded && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
                 ? "bg-gray-400 cursor-not-allowed"
                 : submitStatus === "success"
                 ? "bg-green-600 hover:bg-green-700 focus:ring-green-500"
                 : "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500",
               "text-white"
             )}
-            whileHover={!isSubmitting && (captchaLoaded || !process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) ? { scale: 1.02 } : {}}
-            whileTap={!isSubmitting && (captchaLoaded || !process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) ? { scale: 0.98 } : {}}
+            whileHover={
+              !isSubmitting &&
+              (captchaLoaded || !process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
+                ? { scale: 1.02 }
+                : {}
+            }
+            whileTap={
+              !isSubmitting &&
+              (captchaLoaded || !process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
+                ? { scale: 0.98 }
+                : {}
+            }
           >
             {!captchaLoaded && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
               <>

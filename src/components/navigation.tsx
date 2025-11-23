@@ -35,10 +35,8 @@ export default function Navigation() {
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-
         {/* Navbar Row */}
         <div className="flex items-center justify-between h-24 md:h-28">
-
           {/* Logo */}
           <Link href="/" className="flex items-center h-full">
             <div className="relative h-full w-32 md:w-40 flex-shrink-0">
@@ -54,7 +52,6 @@ export default function Navigation() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-10">
-
             {/* Loop Desktop Items */}
             {navLinks.map((link) =>
               link.dropdown ? (
@@ -89,7 +86,7 @@ export default function Navigation() {
               ) : (
                 <Link
                   key={link.name}
-                  href={link.href}
+                  href={link.href ?? "#"}
                   className={`transition-colors font-semibold text-lg ${
                     pathname === link.href
                       ? "text-blue-600 border-b-2 border-blue-600 pb-1"
@@ -100,7 +97,6 @@ export default function Navigation() {
                 </Link>
               )
             )}
-
           </div>
 
           {/* Mobile Menu Button */}
@@ -115,13 +111,14 @@ export default function Navigation() {
         {/* Mobile Dropdown */}
         {isOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-slate-200 pt-4 space-y-3">
-
             {/* Home */}
             <Link
               href="/"
               onClick={() => setIsOpen(false)}
               className={`block py-3 text-lg font-medium ${
-                pathname === "/" ? "text-blue-600 font-semibold" : "text-slate-700"
+                pathname === "/"
+                  ? "text-blue-600 font-semibold"
+                  : "text-slate-700"
               }`}
             >
               Home
@@ -132,7 +129,9 @@ export default function Navigation() {
               href="/about"
               onClick={() => setIsOpen(false)}
               className={`block py-3 text-lg font-medium ${
-                pathname === "/about" ? "text-blue-600 font-semibold" : "text-slate-700"
+                pathname === "/about"
+                  ? "text-blue-600 font-semibold"
+                  : "text-slate-700"
               }`}
             >
               About
@@ -180,7 +179,6 @@ export default function Navigation() {
             >
               Contact
             </Link>
-
           </div>
         )}
       </div>
